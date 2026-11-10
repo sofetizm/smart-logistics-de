@@ -1,0 +1,32 @@
+[
+  {
+    "event": "etl_complete",
+    "start_date": "2023-10-03",
+    "end_date": "2027-02-14",
+    "as_of": "2026-10-26",
+    "rows_read": 300000,
+    "rows_loaded": 299797,
+    "rows_quarantined": 203,
+    "mart_rows": 203644,
+    "reasons": {
+      "MISSING_FX_RATE": 39,
+      "RUB_PRICE_TOO_LOW": 156,
+      "INVALID_PRICE": 164
+    }
+  },
+  {
+    "event": "etl_complete",
+    "start_date": "2023-10-03",
+    "end_date": "2027-02-14",
+    "as_of": "2026-10-26",
+    "rows_read": 300000,
+    "rows_loaded": 299797,
+    "rows_quarantined": 203,
+    "mart_rows": 203644,
+    "reasons": {
+      "MISSING_FX_RATE": 39,
+      "RUB_PRICE_TOO_LOW": 156,
+      "INVALID_PRICE": 164
+    }
+  }
+]

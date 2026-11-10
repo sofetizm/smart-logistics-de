@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+artifacts/*
+!artifacts/.gitkeep
+validation/node_modules/

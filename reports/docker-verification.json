@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "repository": "sofetizm/smart-logistics-de",
+  "run_id": 42869799713,
+  "run_url": "https://github.com/sofetizm/smart-logistics-de/actions/runs/42869799713",
+  "commit": "e5505f73ce7cf3daac9b5b05607d414cc4746d4b",
+  "runner": "ubuntu-24.04",
+  "postgresql": "17.11",
+  "data_rows": 300000,
+  "tests_passed": 37,
+  "repeatability_unchanged": true,
+  "artifact_id": 13789985649,
+  "artifact_sha256": "b7b560fd5d1f98b8f1d8a4026693e24128a3b48b520de4acb836476f0cf2fe27"
+}

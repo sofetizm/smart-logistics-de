@@ -1,0 +1,83 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-logistics}
+      POSTGRES_DB: ${POSTGRES_DB:-deals_bigdata}
+      POSTGRES_PASSWORD_FILE: /run/credentials/postgres_password
+    entrypoint: ["sh", "/opt/postgres-entrypoint.sh"]
+    command: ["postgres"]
+    ports:
+      - "127.0.0.1:${PGPORT_HOST:-55432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - credentials:/run/credentials
+      - ./docker/postgres-entrypoint.sh:/opt/postgres-entrypoint.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 3s
+      timeout: 3s
+      retries: 60
+  pipeline:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: ${POSTGRES_USER:-logistics}
+      PGDATABASE: ${POSTGRES_DB:-deals_bigdata}
+      PASSWORD_FILE: /run/credentials/postgres_password
+      N_PRICES: ${N_PRICES:-300000}
+      AS_OF: ${AS_OF:-2026-10-26}
+      TRAIN_START: ${TRAIN_START:-2026-07-26}
+      TEST_START: ${TEST_START:-2026-10-05}
+      MODEL_ITERATIONS: ${MODEL_ITERATIONS:-600}
+      MODEL_THREADS: ${MODEL_THREADS:-2}
+      RUN_INTERVAL_SECONDS: ${RUN_INTERVAL_SECONDS:-0}
+    volumes:
+      - credentials:/run/credentials:ro
+      - ./artifacts:/app/artifacts
+  test-db:
+    image: postgres:17
+    profiles: ["test"]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-logistics}
+      POSTGRES_DB: ${POSTGRES_DB:-deals_bigdata}_test
+      POSTGRES_PASSWORD_FILE: /run/credentials/postgres_password
+    entrypoint: ["sh", "/opt/postgres-entrypoint.sh"]
+    command: ["postgres"]
+    tmpfs:
+      - /var/lib/postgresql/data
+    volumes:
+      - credentials:/run/credentials
+      - ./docker/postgres-entrypoint.sh:/opt/postgres-entrypoint.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 3s
+      timeout: 3s
+      retries: 60
+  tests:
+    profiles: ["test"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    depends_on:
+      test-db:
+        condition: service_healthy
+    environment:
+      PGHOST: test-db
+      PGPORT: 5432
+      PGUSER: ${POSTGRES_USER:-logistics}
+      PGDATABASE: ${POSTGRES_DB:-deals_bigdata}_test
+      PASSWORD_FILE: /run/credentials/postgres_password
+      TEST_DB_ENABLED: "1"
+    volumes:
+      - credentials:/run/credentials:ro
+    command: ["python", "-m", "pytest", "-q"]
+volumes:
+  pgdata:
+  credentials:

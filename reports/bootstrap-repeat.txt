@@ -1,0 +1,12 @@
+BEGIN
+ pg_advisory_xact_lock 
+-----------------------
+ 
+(1 row)
+
+psql:./sql/bootstrap.psql:4: NOTICE:  schema "raw" already exists, skipping
+CREATE SCHEMA
+SET
+Source already initialized; generation skipped.
+COMMIT
+{"event": "initialized"}

@@ -1,0 +1,14 @@
+\set ON_ERROR_STOP on
+BEGIN;
+SELECT pg_advisory_xact_lock(899701);
+CREATE SCHEMA IF NOT EXISTS raw;
+SET LOCAL search_path TO raw, public;
+SELECT to_regclass('raw.source_initialized') IS NOT NULL AS raw_ready \gset
+\if :raw_ready
+  \echo 'Source already initialized; generation skipped.'
+\else
+  \ir source/schema.sql
+  \ir source/synthetic.sql
+  CREATE TABLE source_initialized AS SELECT count(*) AS n_prices FROM prices;
+\endif
+COMMIT;

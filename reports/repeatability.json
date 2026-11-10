@@ -1,0 +1,78 @@
+{
+  "unchanged": true,
+  "before": {
+    "core.cities": {
+      "rows": 40,
+      "sha256": "be447674485d6fa547ff9b4b22006854e41a6749dd924cd8134a5d3400eb8414"
+    },
+    "core.prices": {
+      "rows": 299797,
+      "sha256": "65e6579bd989d37d989926c15162db119ae9b1e1d70c1deec52df86228dd6d39"
+    },
+    "core.price_bodies": {
+      "rows": 335077,
+      "sha256": "e154851665536821915ccec2ba4b3fd638c482a33604e1fb156472a8ed5b43d9"
+    },
+    "core.price_dates": {
+      "rows": 336576,
+      "sha256": "98a01b302ceec6be9f6a359f731b53418acdb7ef2264290894918b6b957bd057"
+    },
+    "core.dq_quarantine_prices": {
+      "rows": 203,
+      "sha256": "05a27ea140e2cfc3fe8d18caab7c24fada6377a370b2c350216d1675e82df98c"
+    },
+    "mart.market_corridor": {
+      "rows": 203644,
+      "sha256": "6660574d319290860fdaa9f7bcef47ef1826a4110dfd456ba1987ae5e2ed92e5"
+    },
+    "mart.ml_price_predictions": {
+      "rows": 18628,
+      "sha256": "7453e0e0f190c83472bea1d5713cb7ac7a94504043445f6d32dd0d8762add5b1"
+    }
+  },
+  "after": {
+    "core.cities": {
+      "rows": 40,
+      "sha256": "be447674485d6fa547ff9b4b22006854e41a6749dd924cd8134a5d3400eb8414"
+    },
+    "core.prices": {
+      "rows": 299797,
+      "sha256": "65e6579bd989d37d989926c15162db119ae9b1e1d70c1deec52df86228dd6d39"
+    },
+    "core.price_bodies": {
+      "rows": 335077,
+      "sha256": "e154851665536821915ccec2ba4b3fd638c482a33604e1fb156472a8ed5b43d9"
+    },
+    "core.price_dates": {
+      "rows": 336576,
+      "sha256": "98a01b302ceec6be9f6a359f731b53418acdb7ef2264290894918b6b957bd057"
+    },
+    "core.dq_quarantine_prices": {
+      "rows": 203,
+      "sha256": "05a27ea140e2cfc3fe8d18caab7c24fada6377a370b2c350216d1675e82df98c"
+    },
+    "mart.market_corridor": {
+      "rows": 203644,
+      "sha256": "6660574d319290860fdaa9f7bcef47ef1826a4110dfd456ba1987ae5e2ed92e5"
+    },
+    "mart.ml_price_predictions": {
+      "rows": 18628,
+      "sha256": "7453e0e0f190c83472bea1d5713cb7ac7a94504043445f6d32dd0d8762add5b1"
+    }
+  },
+  "verification": {
+    "checks": {
+      "source_reconciliation": true,
+      "core_quarantine_disjoint": true,
+      "future_actuals_masked": true,
+      "corridor_order": true,
+      "no_future_market": true,
+      "one_prediction_per_deal_model": true
+    },
+    "raw_rows": 300000,
+    "core_rows": 299797,
+    "quarantine_rows": 203,
+    "market_cells": 203644,
+    "prediction_rows": 18628
+  }
+}

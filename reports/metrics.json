@@ -1,0 +1,49 @@
+{
+  "model_id": "catboost_36bfa97f2666b4be0950",
+  "model_name": "CatBoostRegressor-1.2.8-features-v1",
+  "as_of": "2026-10-26",
+  "train_start": "2026-07-26",
+  "test_start": "2026-10-05",
+  "metrics": {
+    "r2": 0.9208678808106734,
+    "mape_pct": 15.842302685434657,
+    "rmse_rub": 53815.145996569874,
+    "mae_rub": 28187.296439247977,
+    "train_rows": 24226,
+    "test_rows": 12808,
+    "future_rows": 5820
+  },
+  "features": [
+    "origin_region",
+    "destination_region",
+    "origin_city",
+    "destination_city",
+    "body_group",
+    "weight_category",
+    "volume_category",
+    "distance",
+    "total_weight",
+    "total_volume",
+    "origin_latitude",
+    "origin_longitude",
+    "destination_latitude",
+    "destination_longitude",
+    "year",
+    "month_sin",
+    "month_cos",
+    "dow_sin",
+    "dow_cos",
+    "doy_sin",
+    "doy_cos"
+  ],
+  "parameters": {
+    "iterations": 600,
+    "depth": 7,
+    "learning_rate": 0.06,
+    "loss_function": "RMSE",
+    "random_seed": 20261026,
+    "thread_count": 2,
+    "allow_writing_files": false,
+    "verbose": false
+  }
+}

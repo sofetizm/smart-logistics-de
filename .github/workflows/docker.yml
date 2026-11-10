@@ -1,0 +1,55 @@
+name: Docker integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      COMPOSE_PROJECT_NAME: logistics-ci
+      N_PRICES: "300000"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Validate Compose
+        run: |
+          docker compose version
+          docker compose config --quiet
+          docker compose --profile test config --quiet
+          mkdir -p artifacts
+      - name: Start full pipeline
+        shell: bash
+        run: |
+          set -o pipefail
+          docker compose up --build --abort-on-container-exit --exit-code-from pipeline 2>&1 | tee artifacts/docker-pipeline.log
+      - name: Run integration tests
+        shell: bash
+        run: |
+          set -o pipefail
+          docker compose --profile test run --build --rm tests 2>&1 | tee artifacts/docker-tests.log
+      - name: Verify repeatability
+        shell: bash
+        run: |
+          set -o pipefail
+          docker compose up -d db
+          docker compose run --rm --no-deps pipeline python -m tests.repeatability 2>&1 | tee artifacts/docker-repeatability.log
+      - name: Collect container logs
+        if: always()
+        run: docker compose --profile test logs --no-color > artifacts/docker-containers.log 2>&1
+      - name: Upload verification artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: docker-verification
+          path: artifacts/
+          retention-days: 14
+      - name: Stop containers
+        if: always()
+        run: docker compose --profile test down --volumes --remove-orphans
